@@ -1,2 +1,1 @@
-# H1
-Terminal osu!mania accuracy calculator made in Rust
+# Terminal osu!mania accuracy calculator made in Rust
