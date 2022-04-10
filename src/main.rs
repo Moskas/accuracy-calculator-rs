@@ -1,7 +1,7 @@
 use std::io::{self, Write};
 
 fn read_judgments() -> Vec<i32> {
-    println!("Podaj swoje trafienia");
+    println!("Please insert your judgments");
     let possible_judgments = vec!["300g", "300", "200", "100", "50", "Miss"];
     let mut judgements: Vec<i32> = Vec::new();
     let mut iterator: i32 = 0;
@@ -17,12 +17,11 @@ fn read_judgments() -> Vec<i32> {
                         iterator += 1
                     }
                     Err(e) => {
-                        println!("Podales zla wartosc! Blad: {}", e);
-                        iterator -= 1
+                        println!("Incorrect value! Blad: {}", e);
                     }
                 };
             }
-            Err(err) => println!("Nie mozna odczytac wartosci: {}", err),
+            Err(err) => println!("Couldn't read the value: {}", err),
         }
         readout.clear();
     }
@@ -58,19 +57,35 @@ fn percent_v2(judgements: &Vec<i32>) -> f32 {
     return (percent.0 as f32 / percent.1 as f32) * 100.0;
 }
 
+fn grade(percent: f32) -> String {
+    match percent {
+        100.0 => return "SS".to_string(),
+        95.01..=100.0 => return "S".to_string(),
+        90.01..=95.0 => return "A".to_string(),
+        80.01..=90.0 => return "B".to_string(),
+        70.01..=80.0 => return "C".to_string(),
+        _ => return "D".to_string(),
+    };
+}
+
 fn main() {
     let judgements: Vec<i32> = read_judgments();
     let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
     let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
     let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
+    println!("Your MA is: {} ({}:{})", ma, judgements[0], judgements[1]);
     println!(
-        "Twoje MA wynosi: {} ({}:{})",
-        ma, judgements[0], judgements[1]
-    );
-    println!(
-        "Twoje PA wynosi: {} ({}:{})",
+        "Your PA is: {} ({}:{})",
         pa, judge_sum_tuple.0, judge_sum_tuple.1
     );
-    println!("Acc V1: {}%", percent_v1(&judgements));
-    println!("Acc V2: {}%", percent_v2(&judgements));
+    println!(
+        "Acc V1: {}% Grade: {}",
+        percent_v1(&judgements),
+        grade(percent_v1(&judgements))
+    );
+    println!(
+        "Acc V2: {}% Grade: {}",
+        percent_v2(&judgements),
+        grade(percent_v2(&judgements))
+    );
 }
