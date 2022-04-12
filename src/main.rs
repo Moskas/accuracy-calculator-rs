@@ -69,7 +69,13 @@ fn grade(percent: f32) -> String {
     };
 }
 
-fn calculate() {}
+fn calculate(vec: Vec<i32>){
+    let ma: f32 = vec[0] as f32 / vec[1] as f32;
+        println!("{}", ma);
+    let judge_sum_tuple: (f32 ,f32) = perfect_all(&vec);
+    let pa: f32 = judge_sum_tuple.0 + judge_sum_tuple.1;
+    println!("{}",pa);
+}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -89,6 +95,7 @@ fn main() {
                     judgements_i32.push(val.parse::<i32>().unwrap());
                 }
                 println!("{:?}", judgements_i32);
+                calculate(judgements_i32);
             }
             _ => (), //  Do nothing in match, go to the else statement
                      //  TODO refactor logic to be here rather than in else block
