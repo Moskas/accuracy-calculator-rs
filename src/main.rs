@@ -1,3 +1,5 @@
+use std::env;
+use std::fs::read_to_string;
 use std::io::{self, Write};
 
 fn read_judgments() -> Vec<i32> {
@@ -69,7 +71,20 @@ fn grade(percent: f32) -> String {
 }
 
 fn main() {
-    let judgements: Vec<i32> = read_judgments();
+    let args: Vec<String> = env::args().collect();
+    println!("{:?}", args);
+    let mut judgements: Vec<i32> = Vec::new();
+    if args.len() > 1 {
+        let query = &args[1].to_string();
+        let mut judgements: Vec<String> = Vec::new();
+        judgements.push(args[2].clone());
+        match args[1].as_str() {
+            "-h" => println!("WIP"),
+            _ => (),
+        }
+    } else {
+        judgements = read_judgments();
+    }
     let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
     let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
     let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
