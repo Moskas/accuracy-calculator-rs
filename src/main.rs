@@ -100,20 +100,23 @@ fn main() {
                    }
                 }
                 println!("{:?}", judgements_i32);
-                        let result = calculate(judgements_i32);
-        println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
-        println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
-        println!(
-            "Acc V1: {}% Grade: {}",
-            percent_v1(&result.3),
-            grade(percent_v1(&result.3))
+                if judgements_i32.len() != 6 {
+                    println!("Not enough data");
+                } else {
+                let result = calculate(judgements_i32);
+                println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
+                println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
+                println!(
+                    "Acc V1: {}% Grade: {}",
+                    percent_v1(&result.3),
+                    grade(percent_v1(&result.3))
+                );
+                println!(
+                    "Acc V2: {}% Grade: {}",
+                    percent_v2(&result.3),
+                    grade(percent_v2(&result.3))
         );
-        println!(
-            "Acc V2: {}% Grade: {}",
-            percent_v2(&result.3),
-            grade(percent_v2(&result.3))
-        );
-
+                }
             }
             _ => {
                 calculate(read_judgments());
