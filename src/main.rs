@@ -17,8 +17,8 @@ fn read_judgments() -> Vec<i32> {
                         judgements.push(o);
                         iterator += 1
                     }
-                    Err(e) => {
-                        println!("Incorrect value Error: {}", e);
+                    Err(err) => {
+                        println!("Incorrect value Error: {}", err);
                     }
                 };
             }
@@ -82,13 +82,13 @@ fn main() {
     if args.len() > 1 {
         let query = &args[1];
         match query.as_str() {
-            "-h" => println!("Here will be help format"), // TODO  Proper help command
-            "-v" => println!("Version 0.0.1"),
+            "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
+            "-v" => println!("Version 0.1"),
             "-j" => {
                 let arg_input = args[2].split(',');
                 let mut judgements: Vec<&str> = arg_input.collect();
                 while judgements.len() < 6 {
-                    judgements.push("0"); //  Fill missing spaces with 0 TODO fillout prompt
+                    judgements.push("0"); //  Fill missing spaces with 0 TODO optional fillout prompt
                 }
                 let mut judgements_i32: Vec<i32> = Vec::new();
                 for val in judgements {
@@ -96,13 +96,16 @@ fn main() {
                        Ok(val) => judgements_i32.push(val),
                        Err(err) => {
                            println!("Please enter only numbers Error: {}", err);
-                           break},
+                           break
+                       },
                    }
                 }
                 println!("{:?}", judgements_i32);
                 calculate(judgements_i32);
             }
-            _ => (), //  Do nothing in match, go to the else statement
+            _ => {
+                calculate(read_judgments());
+            }, //  Do nothing in match, go to the else statement
                      //  TODO refactor logic to be here rather than in else block
         }
     } else {
