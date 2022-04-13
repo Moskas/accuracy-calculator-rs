@@ -18,11 +18,11 @@ fn read_judgments() -> Vec<i32> {
                         iterator += 1
                     }
                     Err(e) => {
-                        println!("Incorrect value! Blad: {}", e);
+                        println!("Incorrect value Error: {}", e);
                     }
                 };
             }
-            Err(err) => println!("Couldn't read the value: {}", err),
+            Err(err) => println!("Couldn't read the value Error: {}", err),
         }
         readout.clear();
     }
@@ -95,7 +95,7 @@ fn main() {
                    match val.parse::<i32>() {
                        Ok(val) => judgements_i32.push(val),
                        Err(err) => {
-                           println!("Please enter numbers: {}", err);
+                           println!("Please enter only numbers Error: {}", err);
                            break},
                    }
                 }
