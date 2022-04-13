@@ -69,12 +69,11 @@ fn grade(percent: f32) -> String {
     };
 }
 
-fn calculate(vec: Vec<i32>){
-    let ma: f32 = vec[0] as f32 / vec[1] as f32;
-        println!("{}", ma);
-    let judge_sum_tuple: (f32 ,f32) = perfect_all(&vec);
-    let pa: f32 = judge_sum_tuple.0 + judge_sum_tuple.1;
-    println!("{}",pa);
+fn calculate(judgements: Vec<i32>) -> (f32, f32, (f32, f32), Vec<i32>) {
+    let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
+    let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
+    let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
+    return (ma, pa, judge_sum_tuple, judgements);
 }
 
 fn main() {
@@ -101,7 +100,20 @@ fn main() {
                    }
                 }
                 println!("{:?}", judgements_i32);
-                calculate(judgements_i32);
+                        let result = calculate(judgements_i32);
+        println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
+        println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
+        println!(
+            "Acc V1: {}% Grade: {}",
+            percent_v1(&result.3),
+            grade(percent_v1(&result.3))
+        );
+        println!(
+            "Acc V2: {}% Grade: {}",
+            percent_v2(&result.3),
+            grade(percent_v2(&result.3))
+        );
+
             }
             _ => {
                 calculate(read_judgments());
@@ -109,24 +121,18 @@ fn main() {
                      //  TODO refactor logic to be here rather than in else block
         }
     } else {
-        let judgements = read_judgments();
-        let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
-        let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
-        let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
-        println!("Your MA is: {} ({}:{})", ma, judgements[0], judgements[1]);
-        println!(
-            "Your PA is: {} ({}:{})",
-            pa, judge_sum_tuple.0, judge_sum_tuple.1
-        );
+        let result = calculate(read_judgments());
+        println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
+        println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
         println!(
             "Acc V1: {}% Grade: {}",
-            percent_v1(&judgements),
-            grade(percent_v1(&judgements))
+            percent_v1(&result.3),
+            grade(percent_v1(&result.3))
         );
         println!(
             "Acc V2: {}% Grade: {}",
-            percent_v2(&judgements),
-            grade(percent_v2(&judgements))
+            percent_v2(&result.3),
+            grade(percent_v2(&result.3))
         );
     }
 }
