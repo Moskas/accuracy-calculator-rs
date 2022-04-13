@@ -92,7 +92,12 @@ fn main() {
                 }
                 let mut judgements_i32: Vec<i32> = Vec::new();
                 for val in judgements {
-                    judgements_i32.push(val.parse::<i32>().unwrap());
+                   match val.parse::<i32>() {
+                       Ok(val) => judgements_i32.push(val),
+                       Err(err) => {
+                           println!("Please enter numbers: {}", err);
+                           break},
+                   }
                 }
                 println!("{:?}", judgements_i32);
                 calculate(judgements_i32);
