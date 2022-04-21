@@ -1,14 +1,7 @@
-use std::env;
+use std::{env, io};
 
 mod calculate;
 mod read;
-
-fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
-    for i in size..=6 {
-        &judgements.push(0);
-    }
-    return judgements.to_vec();
-}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -38,9 +31,9 @@ fn main() {
             "-j" => {
                 let arg_input = args[2].split(',');
                 let mut judgements: Vec<&str> = arg_input.collect();
-                while judgements.len() < 6 {
-                    judgements.push("0"); //  Fill missing spaces with 0 TODO optional fillout prompt
-                }
+//                while judgements.len() < 6 {
+//                    judgements.push("0"); //  Fill missing spaces with 0 TODO optional fillout prompt
+//                }
                 let mut judgements_i32: Vec<i32> = Vec::new();
                 for val in judgements {
                    match val.parse::<i32>() {
@@ -53,7 +46,19 @@ fn main() {
                 }
                 println!("{:?}", judgements_i32);
                 if judgements_i32.len() != 6 {
-                    println!("Not enough data");
+                    read::fill(judgements_i32.len(),&mut judgements_i32);
+                    let result = calculate::calculate(judgements_i32);
+                println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
+                println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
+                println!(
+                    "Acc V1: {}% Grade: {}",
+                    calculate::percent_v1(&result.3),
+                    calculate::grade(calculate::percent_v1(&result.3))
+                );
+                println!(
+                    "Acc V2: {}% Grade: {}",
+                    calculate::percent_v2(&result.3),
+                    calculate::grade(calculate::percent_v2(&result.3)));
                 } else {
                 let result = calculate::calculate(judgements_i32);
                 println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
