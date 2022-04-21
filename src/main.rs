@@ -77,6 +77,13 @@ fn calculate(judgements: Vec<i32>) -> (f32, f32, (f32, f32), Vec<i32>) {
     return (ma, pa, judge_sum_tuple, judgements);
 }
 
+fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
+    for i in size..=6 {
+        &judgements.push(0);
+    }
+    return judgements.to_vec();
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() > 1 {
