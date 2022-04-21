@@ -1,80 +1,13 @@
 use std::env;
-use std::io::{self, Write};
 
-fn read_judgments() -> Vec<i32> {
-    println!("Please insert your judgments");
-    let possible_judgments = vec!["300g", "300", "200", "100", "50", "Miss"];
-    let mut judgements: Vec<i32> = Vec::new();
-    let mut iterator: i32 = 0;
-    let mut readout: String = String::new();
-    while iterator < 6 {
-        print!("{}: ", possible_judgments[iterator as usize]);
-        io::stdout().flush(); //  Making sure judgment name shows up before reading input
-        match io::stdin().read_line(&mut readout) {
-            Ok(_) => {
-                match readout.trim().parse::<i32>() {
-                    Ok(o) => {
-                        judgements.push(o);
-                        iterator += 1
-                    }
-                    Err(err) => {
-                        println!("Incorrect value Error: {}", err);
-                    }
-                };
-            }
-            Err(err) => println!("Couldn't read the value Error: {}", err),
-        }
-        readout.clear();
+mod calculate;
+mod read;
+
+fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
+    for i in size..=6 {
+        &judgements.push(0);
     }
-    return judgements;
-}
-//  Adding up 300g to 300 and other judgments with each other and returning the values as tuple
-fn perfect_all(judgments: &Vec<i32>) -> (f32, f32) {
-    let perfects: i32 = judgments[0..=1].iter().sum();
-    let other: i32 = judgments[2..=5].iter().sum();
-    return (perfects as f32, other as f32);
-}
-// Calculating Score v1 percent from formula that can be found here: https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
-fn percent_v1(judgements: &Vec<i32>) -> f32 {
-    let percent: (i32, i32) = (
-        300 * (judgements[0] + judgements[1])
-            + 200 * judgements[2]
-            + 100 * judgements[3]
-            + 50 * judgements[4],
-        (judgements[0..=5].iter().sum::<i32>()) * 300,
-    );
-    return (percent.0 as f32 / percent.1 as f32) * 100.0;
-}
-// Calculating Score v2 percent from formula that can be found here: https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
-fn percent_v2(judgements: &Vec<i32>) -> f32 {
-    let percent: (i32, i32) = (
-        305 * judgements[0]
-            + 300 * judgements[1]
-            + 200 * judgements[2]
-            + 100 * judgements[3]
-            + 50 * judgements[4],
-        (judgements[0..=5].iter().sum::<i32>()) * 305,
-    );
-    return (percent.0 as f32 / percent.1 as f32) * 100.0;
-}
-//  Matching Score v1/v2 percanteges with grades https://osu.ppy.sh/wiki/en/Gameplay/Grade
-//  wiki page says grades start from .00 in reality next grade starts from .01 due to rounding up
-fn grade(percent: f32) -> String {
-    match percent {
-        100.0 => return "SS".to_string(),
-        95.01..=100.0 => return "S".to_string(),
-        90.01..=95.0 => return "A".to_string(),
-        80.01..=90.0 => return "B".to_string(),
-        70.01..=80.0 => return "C".to_string(),
-        _ => return "D".to_string(),
-    };
-}
-//  Calculating ratio of 300g to 300, 300g+300 to other judgments and returning everything as a tuple
-fn calculate(judgements: Vec<i32>) -> (f32, f32, (f32, f32), Vec<i32>) {
-    let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
-    let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
-    let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
-    return (ma, pa, judge_sum_tuple, judgements);
+    return judgements.to_vec();
 }
 
 fn main() {
@@ -104,39 +37,39 @@ fn main() {
                 if judgements_i32.len() != 6 {
                     println!("Not enough data");
                 } else {
-                let result = calculate(judgements_i32);
+                let result = calculate::calculate(judgements_i32);
                 println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
                 println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
                 println!(
                     "Acc V1: {}% Grade: {}",
-                    percent_v1(&result.3),
-                    grade(percent_v1(&result.3))
+                    calculate::percent_v1(&result.3),
+                    calculate::grade(calculate::percent_v1(&result.3))
                 );
                 println!(
                     "Acc V2: {}% Grade: {}",
-                    percent_v2(&result.3),
-                    grade(percent_v2(&result.3))
+                    calculate::percent_v2(&result.3),
+                    calculate::grade(calculate::percent_v2(&result.3))
         );
                 }
             }
             _ => {
-                calculate(read_judgments());
+                calculate::calculate(read::read_judgments());
             },  //  Do nothing in match, go to the else statement
                 //  TODO refactor logic to be here rather than in else block
         }
     } else {
-        let result = calculate(read_judgments());
+        let result = calculate::calculate(read::read_judgments());
         println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
         println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
         println!(
             "Acc V1: {}% Grade: {}",
-            percent_v1(&result.3),
-            grade(percent_v1(&result.3))
+            calculate::percent_v1(&result.3),
+            calculate::grade(calculate::percent_v1(&result.3))
         );
         println!(
             "Acc V2: {}% Grade: {}",
-            percent_v2(&result.3),
-            grade(percent_v2(&result.3))
+            calculate::percent_v2(&result.3),
+            calculate::grade(calculate::percent_v2(&result.3))
         );
     }
 }
