@@ -12,9 +12,27 @@ fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() > 1 {
-        let query = &args[1];
-        match query.as_str() {
+    match args.len() as i32 {
+        // if no argument is provided do manual input
+        1 => {
+            let result = calculate::calculate(read::read_judgments());
+            println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
+            println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
+            println!(
+                "Acc V1: {}% Grade: {}",
+                calculate::percent_v1(&result.3),
+                calculate::grade(calculate::percent_v1(&result.3))
+            );
+            println!(
+                "Acc V2: {}% Grade: {}",
+                calculate::percent_v2(&result.3),
+                calculate::grade(calculate::percent_v2(&result.3))
+            );
+        }
+        // else read argument and do instruction from other arms
+        _ => {
+            let query = &args[1];
+            match query.as_str() {
             "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
             "-v" => println!("Version 0.1"),
             "-j" => {
@@ -48,28 +66,11 @@ fn main() {
                 println!(
                     "Acc V2: {}% Grade: {}",
                     calculate::percent_v2(&result.3),
-                    calculate::grade(calculate::percent_v2(&result.3))
-        );
+                    calculate::grade(calculate::percent_v2(&result.3)));
                 }
             }
-            _ => {
-                calculate::calculate(read::read_judgments());
-            },  //  Do nothing in match, go to the else statement
-                //  TODO refactor logic to be here rather than in else block
+            _ => {println!("Wrong argument");}, //  Print out in case of usage of other letter than v,j,h
+            }
         }
-    } else {
-        let result = calculate::calculate(read::read_judgments());
-        println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
-        println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
-        println!(
-            "Acc V1: {}% Grade: {}",
-            calculate::percent_v1(&result.3),
-            calculate::grade(calculate::percent_v1(&result.3))
-        );
-        println!(
-            "Acc V2: {}% Grade: {}",
-            calculate::percent_v2(&result.3),
-            calculate::grade(calculate::percent_v2(&result.3))
-        );
     }
 }
