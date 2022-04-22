@@ -8,7 +8,7 @@ fn main() {
     match args.len() as i32 {
         // if no argument is provided do manual input
         1 => {
-            let result = calculate::calculate(read::read_judgments());
+            let result = calculate::calculate(read::read_judgements());
             calculate::print_out(result);
         }
         // else read argument and do instruction from other arms

@@ -1,7 +1,7 @@
-//  Adding up 300g to 300 and other judgments with each other and returning the values as tuple
-pub fn perfect_all(judgments: &Vec<i32>) -> (f32, f32) {
-    let perfects: i32 = judgments[0..=1].iter().sum();
-    let other: i32 = judgments[2..=5].iter().sum();
+//  Adding up 300g to 300 and other judgements with each other and returning the values as tuple
+pub fn perfect_all(judgements: &Vec<i32>) -> (f32, f32) {
+    let perfects: i32 = judgements[0..=1].iter().sum();
+    let other: i32 = judgements[2..=5].iter().sum();
     return (perfects as f32, other as f32);
 }
 // Calculating Score v1 percent from formula that can be found here: https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
@@ -39,7 +39,7 @@ pub fn grade(percent: f32) -> String {
         _ => return "D".to_string(),
     };
 }
-//  Calculating ratio of 300g to 300, 300g+300 to other judgments and returning everything as a tuple
+//  Calculating ratio of 300g to 300, 300g+300 to other judgements and returning everything as a tuple
 pub fn calculate(judgements: Vec<i32>) -> (f32, f32, (f32, f32), Vec<i32>) {
     let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
     let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
