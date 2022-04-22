@@ -84,3 +84,39 @@ pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     }
     return judgements.to_vec();
 }
+//  Converting from Vector with &str to i32 type
+pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
+    let mut judgements_i32: Vec<i32> = Vec::new();
+    for val in judgements {
+        match val.parse::<i32>() {
+            Ok(val) => judgements_i32.push(val),
+            Err(err) => {
+                println!("Please enter only numbers Error: {}", err);
+                break;
+            }
+        }
+    }
+    return judgements_i32;
+}
+
+pub fn read_arguments(query: &String, args: &Vec<String>) {
+    match query.as_str() {
+            "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
+            "-v" => println!("Version 0.4.0"),
+            "-j" => {
+                let arg_input = args[2].split(',');
+                let mut judgements: Vec<&str> = arg_input.collect();
+                let mut judgements_i32 = convert_to_i32(&mut judgements);
+                println!("Judgements read on launch {:?}", judgements_i32);
+                if judgements_i32.len() != 6 {
+                    fill(judgements_i32.len(),&mut judgements_i32);
+                    let result = crate::calculate::calculate(judgements_i32);
+                    crate::calculate::print_out(result);
+                    } else {
+                    let result = crate::calculate::calculate(judgements_i32);
+                    crate::calculate::print_out(result);
+                }
+            }
+            _ => {println!("Wrong argument");}, //  Print out in case of usage of other letter than v,j,h
+            }
+}
