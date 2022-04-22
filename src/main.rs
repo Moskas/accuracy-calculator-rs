@@ -27,7 +27,7 @@ fn main() {
             let query = &args[1];
             match query.as_str() {
             "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
-            "-v" => println!("Version 0.1"),
+            "-v" => println!("Version 0.3"),
             "-j" => {
                 let arg_input = args[2].split(',');
                 let mut judgements: Vec<&str> = arg_input.collect();
