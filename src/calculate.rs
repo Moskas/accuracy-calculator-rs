@@ -46,3 +46,18 @@ pub fn calculate(judgements: Vec<i32>) -> (f32, f32, (f32, f32), Vec<i32>) {
     let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
     return (ma, pa, judge_sum_tuple, judgements);
 }
+//  Printing out results
+pub fn print_out(result: (f32, f32, (f32, f32), Vec<i32>)) {
+    println!("Your MA is: {} ({}:{})", result.0, result.3[0], result.3[1]);
+    println!("Your PA is: {} ({}:{})", result.1, result.2 .0, result.2 .1);
+    println!(
+        "Acc V1: {}% Grade: {}",
+        percent_v1(&result.3),
+        grade(percent_v1(&result.3))
+    );
+    println!(
+        "Acc V2: {}% Grade: {}",
+        percent_v2(&result.3),
+        grade(percent_v2(&result.3))
+    );
+}
