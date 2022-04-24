@@ -103,7 +103,7 @@ pub fn read_arguments(args: &Vec<String>) {
     for i in 1..args.len() as i32 {
         match args[i as usize].as_str() {
             "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
-            "-v" => println!("Version 0.4.0"),
+            "-v" => println!("Version 0.4.5"),
             "-j" => {
                 if args.len() > (i+1) as usize{
                 let arg_input = args[(i + 1) as usize].split(',');
