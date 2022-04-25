@@ -85,7 +85,7 @@ pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     return judgements.to_vec();
 }
 //  Converting from Vector with &str to i32 type
-pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
+fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     let mut judgements_i32: Vec<i32> = Vec::new();
     for val in judgements {
         match val.parse::<i32>() {
