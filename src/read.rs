@@ -99,12 +99,14 @@ pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     return judgements_i32;
 }
 
-pub fn read_arguments(query: &String, args: &Vec<String>) {
-    match query.as_str() {
+pub fn read_arguments(args: &Vec<String>) {
+    for i in 1..args.len() as i32 {
+        match args[i as usize].as_str() {
             "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
-            "-v" => println!("Version 0.4.0"),
+            "-v" => println!("Version 0.4.5"),
             "-j" => {
-                let arg_input = args[2].split(',');
+                if args.len() > (i+1) as usize{
+                let arg_input = args[(i + 1) as usize].split(',');
                 let mut judgements: Vec<&str> = arg_input.collect();
                 let mut judgements_i32 = convert_to_i32(&mut judgements);
                 println!("Judgements read on launch {:?}", judgements_i32);
@@ -115,8 +117,12 @@ pub fn read_arguments(query: &String, args: &Vec<String>) {
                     } else {
                     let result = crate::calculate::calculate(judgements_i32);
                     crate::calculate::print_out(result);
+                    }
+                } else {
+                    println!("No judgments were passed after -j");
                 }
             }
-            _ => {println!("Wrong argument");}, //  Print out in case of usage of other letter than v,j,h
+            _ => {}, //  Print out in case of usage of other letter than v,j,h
             }
+    }
 }

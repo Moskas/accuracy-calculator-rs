@@ -13,8 +13,7 @@ fn main() {
         }
         // else read argument and do instruction from other arms
         _ => {
-            let query = &args[1];
-            read::read_arguments(query, &args);
+            read::read_arguments(&args);
         }
     }
 }
