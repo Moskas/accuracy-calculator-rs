@@ -8,13 +8,18 @@ pub fn read_judgements() -> Vec<i32> {
     let mut readout: String = String::new();
     while iterator < 6 {
         print!("{}: ", possible_judgements[iterator as usize]);
-        io::stdout().flush(); //  Making sure judgment name shows up before reading input
+        io::stdout().flush().unwrap(); //  Making sure judgment name shows up before reading input
         match io::stdin().read_line(&mut readout) {
             Ok(_) => {
                 match readout.trim().parse::<i32>() {
                     Ok(o) => {
-                        judgements.push(o);
-                        iterator += 1
+                        match o{
+                            o if o>0 => {
+                                judgements.push(o);
+                                iterator += 1
+                            },
+                            _ => println!("Value can't be less than 0")
+                        }
                     }
                     Err(err) => {
                         println!("Incorrect value Error: {}", err);
@@ -58,6 +63,16 @@ pub fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
     return judgements.to_vec();
 }
 
+#[test]
+fn fill_test(){
+    let mut vec_test: Vec<i32> = vec![300,200];
+    assert_eq!(fill(vec_test.len(),&mut vec_test),vec![300,200,0,0,0,0]);
+    let mut vec_test: Vec<i32> = Vec::new();
+    assert_eq!(fill(vec_test.len(),&mut vec_test),vec![0,0,0,0,0,0]);
+    let mut vec_test: Vec<i32> = vec![300,200,29,29,1,1];
+    assert_eq!(fill(vec_test.len(),&mut vec_test),vec![300,200,29,29,1,1]);
+}
+
 pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     println!("Please insert your judgements");
     let possible_judgements = vec!["300g", "300", "200", "100", "50", "Miss"];
@@ -65,7 +80,7 @@ pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     let mut readout: String = String::new();
     while iterator < 6 {
         print!("{}: ", possible_judgements[iterator as usize]);
-        io::stdout().flush(); //  Making sure judgment name shows up before reading input
+        io::stdout().flush().unwrap(); //  Making sure judgment name shows up before reading input
         match io::stdin().read_line(&mut readout) {
             Ok(_) => {
                 match readout.trim().parse::<i32>() {
@@ -89,7 +104,13 @@ fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     let mut judgements_i32: Vec<i32> = Vec::new();
     for val in judgements {
         match val.parse::<i32>() {
-            Ok(val) => judgements_i32.push(val),
+            Ok(val) => { 
+                if val<0{
+                println!("Value can't be less than 0");
+                judgements_i32.push(0)
+            } else {
+                judgements_i32.push(val)}
+            },
             Err(err) => {
                 println!("Please enter only numbers Error: {}", err);
                 break;
@@ -99,11 +120,19 @@ fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     return judgements_i32;
 }
 
+#[test]
+fn convert_to_i32_test(){
+    let mut vec_test: Vec<&str> = vec!["300","200","100","50","0","0"];
+    assert_eq!(convert_to_i32(&mut vec_test),vec![300,200,100,50,0,0]);
+    let mut vec_test: Vec<&str> = vec!["-1","200","100","50","0","0"];
+    assert_eq!(convert_to_i32(&mut vec_test),vec![0,200,100,50,0,0]);
+}
+
 pub fn read_arguments(args: &Vec<String>) {
     for i in 1..args.len() as i32 {
         match args[i as usize].as_str() {
             "-h" => println!("Available arguments:\n-h - prints out help\n-v - prints out version\n-j - pass judgements in format marv,perf,great,good,bad,miss"),
-            "-v" => println!("Version 0.4.5"),
+            "-v" => println!("Version 0.4.6"),
             "-j" => {
                 if args.len() > (i+1) as usize{
                 let arg_input = args[(i + 1) as usize].split(',');

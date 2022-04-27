@@ -31,11 +31,11 @@ fn percent_v2(judgements: &Vec<i32>) -> f32 {
 //  wiki page says grades start from .00 in reality next grade starts from .01 due to rounding up
 fn grade(percent: f32) -> String {
     match percent {
-        100.0 => return "SS".to_string(),
-        95.01..=100.0 => return "S".to_string(),
-        90.01..=95.0 => return "A".to_string(),
-        80.01..=90.0 => return "B".to_string(),
-        70.01..=80.0 => return "C".to_string(),
+        percent if percent == 100.0 => return "SS".to_string(),
+        percent if(95.01..100.0).contains(&percent) => return "S".to_string(),
+        percent if(90.01..=95.0).contains(&percent) => return "A".to_string(),
+        percent if(80.01..=90.0).contains(&percent) => return "B".to_string(),
+        percent if(70.01..=80.0).contains(&percent) => return "C".to_string(),
         _ => return "D".to_string(),
     };
 }
