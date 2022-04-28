@@ -12,15 +12,13 @@ pub fn read_judgements() -> Vec<i32> {
         match io::stdin().read_line(&mut readout) {
             Ok(_) => {
                 match readout.trim().parse::<i32>() {
-                    Ok(o) => {
-                        match o{
-                            o if o>0 => {
-                                judgements.push(o);
-                                iterator += 1
-                            },
-                            _ => println!("Value can't be less than 0")
+                    Ok(o) => match o {
+                        o if o > 0 => {
+                            judgements.push(o);
+                            iterator += 1
                         }
-                    }
+                        _ => println!("Value can't be less than 0"),
+                    },
                     Err(err) => {
                         println!("Incorrect value Error: {}", err);
                     }
@@ -64,13 +62,19 @@ pub fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
 }
 
 #[test]
-fn fill_test(){
-    let mut vec_test: Vec<i32> = vec![300,200];
-    assert_eq!(fill(vec_test.len(),&mut vec_test),vec![300,200,0,0,0,0]);
+fn fill_test() {
+    let mut vec_test: Vec<i32> = vec![300, 200];
+    assert_eq!(
+        fill(vec_test.len(), &mut vec_test),
+        vec![300, 200, 0, 0, 0, 0]
+    );
     let mut vec_test: Vec<i32> = Vec::new();
-    assert_eq!(fill(vec_test.len(),&mut vec_test),vec![0,0,0,0,0,0]);
-    let mut vec_test: Vec<i32> = vec![300,200,29,29,1,1];
-    assert_eq!(fill(vec_test.len(),&mut vec_test),vec![300,200,29,29,1,1]);
+    assert_eq!(fill(vec_test.len(), &mut vec_test), vec![0, 0, 0, 0, 0, 0]);
+    let mut vec_test: Vec<i32> = vec![300, 200, 29, 29, 1, 1];
+    assert_eq!(
+        fill(vec_test.len(), &mut vec_test),
+        vec![300, 200, 29, 29, 1, 1]
+    );
 }
 
 pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
@@ -104,13 +108,13 @@ fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     let mut judgements_i32: Vec<i32> = Vec::new();
     for val in judgements {
         match val.parse::<i32>() {
-            Ok(val) => { 
-                if val<0{
-                println!("Value can't be less than 0");
-                judgements_i32.push(0)
-            } else {
-                judgements_i32.push(val)}
-            },
+            Ok(val) => {
+                if val < 0 {
+                    println!("Value can't be less than 0");
+                } else {
+                    judgements_i32.push(val)
+                }
+            }
             Err(err) => {
                 println!("Please enter only numbers Error: {}", err);
                 break;
@@ -121,11 +125,11 @@ fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
 }
 
 #[test]
-fn convert_to_i32_test(){
-    let mut vec_test: Vec<&str> = vec!["300","200","100","50","0","0"];
-    assert_eq!(convert_to_i32(&mut vec_test),vec![300,200,100,50,0,0]);
-    let mut vec_test: Vec<&str> = vec!["-1","200","100","50","0","0"];
-    assert_eq!(convert_to_i32(&mut vec_test),vec![0,200,100,50,0,0]);
+fn convert_to_i32_test() {
+    let mut vec_test: Vec<&str> = vec!["300", "200", "100", "50", "0", "0"];
+    assert_eq!(convert_to_i32(&mut vec_test), vec![300, 200, 100, 50, 0, 0]);
+    let mut vec_test: Vec<&str> = vec!["-1", "200", "100", "50", "0", "0"];
+    assert_eq!(convert_to_i32(&mut vec_test), vec![0, 200, 100, 50, 0, 0]);
 }
 
 pub fn read_arguments(args: &Vec<String>) {
@@ -138,6 +142,12 @@ pub fn read_arguments(args: &Vec<String>) {
                 let arg_input = args[(i + 1) as usize].split(',');
                 let mut judgements: Vec<&str> = arg_input.collect();
                 let mut judgements_i32 = convert_to_i32(&mut judgements);
+                    for i in &judgements_i32{
+                        if i<&0{
+                            println!("Judgement values can't be lower than 0!: {}",i);
+                            std::process::exit(*i);
+                        }
+                        }
                 println!("Judgements read on launch {:?}", judgements_i32);
                 if judgements_i32.len() != 6 {
                     fill(judgements_i32.len(),&mut judgements_i32);
