@@ -124,6 +124,7 @@ fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     return judgements_i32;
 }
 
+
 #[test]
 fn convert_to_i32_test() {
     let mut vec_test: Vec<&str> = vec!["300", "200", "100", "50", "0", "0"];
