@@ -13,7 +13,7 @@ pub fn read_judgements() -> Vec<i32> {
             Ok(_) => {
                 match readout.trim().parse::<i32>() {
                     Ok(o) => match o {
-                        o if o > 0 => {
+                        o if 0 <= o => {
                             judgements.push(o);
                             iterator += 1
                         }
@@ -147,21 +147,24 @@ pub fn read_arguments(args: &Vec<String>) {
                         if i<&0{
                             println!("Judgement values can't be lower than 0!: {}",i);
                             std::process::exit(*i);
-                        }
+                            }
                         }
                 println!("Judgements read on launch {:?}", judgements_i32);
                 if judgements_i32.len() != 6 {
                     fill(judgements_i32.len(),&mut judgements_i32);
                     let result = crate::calculate::calculate(judgements_i32);
-                    crate::calculate::print_out(result);
+                    crate::print::print_out(result);
                     } else {
                     let result = crate::calculate::calculate(judgements_i32);
-                    crate::calculate::print_out(result);
+                    crate::print::print_out(result);
                     }
                 } else {
                     println!("No judgments were passed after -j");
                 }
-            }
+            },
+            "-w" => {
+                crate::write_result::write().unwrap(); // Writing out the result into formatted text file WIP
+            },
             _ => {}, //  Print out in case of usage of other letter than v,j,h
             }
     }
