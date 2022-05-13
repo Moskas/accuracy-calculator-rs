@@ -32,10 +32,10 @@ pub fn percent_v2(judgements: &Vec<i32>) -> f32 {
 pub fn grade(percent: f32) -> String {
     match percent {
         percent if percent == 100.0 => return "SS".to_string(),
-        percent if (95.01..100.0).contains(&percent) => return "S".to_string(),
-        percent if (90.01..=95.0).contains(&percent) => return "A".to_string(),
-        percent if (80.01..=90.0).contains(&percent) => return "B".to_string(),
-        percent if (70.01..=80.0).contains(&percent) => return "C".to_string(),
+        percent if (95.00001..=100.0).contains(&percent) => return "S".to_string(),
+        percent if (90.00001..=95.00).contains(&percent) => return "A".to_string(),
+        percent if (80.00001..=90.0).contains(&percent) => return "B".to_string(),
+        percent if (70.00001..=80.0).contains(&percent) => return "C".to_string(),
         _ => return "D".to_string(),
     };
 }
@@ -51,10 +51,9 @@ fn grade_test() {
 }
 
 //  Calculating ratio of 300g to 300, 300g+300 to other judgements and returning everything as a tuple
-pub fn calculate(judgements: Vec<i32>) -> (f32, f32, (f32, f32), Vec<i32>) {
+pub fn calculate(judgements: &Vec<i32>) -> (f32, f32, (f32, f32), &Vec<i32>) {
     let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
     let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
     let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
     return (ma, pa, judge_sum_tuple, judgements);
 }
-
