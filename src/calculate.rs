@@ -51,9 +51,11 @@ fn grade_test() {
 }
 
 //  Calculating ratio of 300g to 300, 300g+300 to other judgements and returning everything as a tuple
-pub fn calculate(judgements: &Vec<i32>) -> (f32, f32, (f32, f32), &Vec<i32>) {
+pub fn calculate(judgements: &Vec<i32>) -> (f32, f32, (f32, f32), f32, f32, &Vec<i32>) {
     let ma: f32 = judgements[0] as f32 / judgements[1] as f32;
     let judge_sum_tuple: (f32, f32) = perfect_all(&judgements);
     let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
-    return (ma, pa, judge_sum_tuple, judgements);
+    let v1: f32 = percent_v1(judgements);
+    let v2: f32 = percent_v2(judgements);
+    return (ma, pa, judge_sum_tuple, v1, v2, judgements);
 }

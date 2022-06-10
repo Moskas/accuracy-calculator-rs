@@ -1,13 +1,8 @@
 use std::fs::File;
 use std::io::prelude::*;
 
-pub fn write() -> std::io::Result<()>{
+pub fn write(result: (f32, f32, (f32, f32), &Vec<i32>)) -> std::io::Result<()> {
     let mut file = File::create("result.txt")?;
-    file.write_all(b"Hello, world!")?;
+    write!(&mut file, "formatted {:?}", result)?;
     Ok(())
-}
-
-#[test]
-fn write_test(){
-    assert_eq!(write(),Some(Ok));
 }
