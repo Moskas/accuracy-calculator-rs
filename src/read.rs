@@ -3,7 +3,7 @@ use std::io::{self, Write};
 pub fn read_judgements() -> Vec<i32> {
     println!("Please insert your judgements");
     let possible_judgements = vec!["300g", "300", "200", "100", "50", "Miss"];
-    let mut judgements: Vec<i32> = Vec::new();
+    let mut judgements: Vec<i32> = Vec::with_capacity(6);
     let mut iterator: i32 = 0;
     let mut readout: String = String::new();
     while iterator < 6 {
@@ -13,7 +13,7 @@ pub fn read_judgements() -> Vec<i32> {
             Ok(_) => {
                 match readout.trim().parse::<i32>() {
                     Ok(o) => match o {
-                        o if o > 0 => {
+                        o if 0 <= o => {
                             judgements.push(o);
                             iterator += 1
                         }
@@ -30,7 +30,7 @@ pub fn read_judgements() -> Vec<i32> {
     }
     return judgements;
 }
-
+/*
 pub fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
     println!("Missing some judgements, do automatic fill with 0 or manually input missing judgements?:\ny/n");
     let mut readout: String = String::new();
@@ -76,7 +76,8 @@ fn fill_test() {
         vec![300, 200, 29, 29, 1, 1]
     );
 }
-
+*/
+/*
 pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     println!("Please insert your judgements");
     let possible_judgements = vec!["300g", "300", "200", "100", "50", "Miss"];
@@ -103,8 +104,9 @@ pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     }
     return judgements.to_vec();
 }
+*/
 //  Converting from Vector with &str to i32 type
-fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
+pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     let mut judgements_i32: Vec<i32> = Vec::new();
     for val in judgements {
         match val.parse::<i32>() {
@@ -124,7 +126,6 @@ fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     return judgements_i32;
 }
 
-
 #[test]
 fn convert_to_i32_test() {
     let mut vec_test: Vec<&str> = vec!["300", "200", "100", "50", "0", "0"];
@@ -132,7 +133,7 @@ fn convert_to_i32_test() {
     let mut vec_test: Vec<&str> = vec!["-1", "200", "100", "50", "0", "0"];
     assert_eq!(convert_to_i32(&mut vec_test), vec![0, 200, 100, 50, 0, 0]);
 }
-
+/*
 pub fn read_arguments(args: &Vec<String>) {
     for i in 1..args.len() as i32 {
         match args[i as usize].as_str() {
@@ -147,22 +148,28 @@ pub fn read_arguments(args: &Vec<String>) {
                         if i<&0{
                             println!("Judgement values can't be lower than 0!: {}",i);
                             std::process::exit(*i);
-                        }
+                            }
                         }
                 println!("Judgements read on launch {:?}", judgements_i32);
                 if judgements_i32.len() != 6 {
                     fill(judgements_i32.len(),&mut judgements_i32);
-                    let result = crate::calculate::calculate(judgements_i32);
-                    crate::calculate::print_out(result);
+                    let result = crate::calculate::calculate(&judgements_i32);
+                    crate::print::print_out(result,crate::calculate::percent_v1(&judgements_i32),crate::calculate::percent_v2(&judgements_i32));
+
                     } else {
-                    let result = crate::calculate::calculate(judgements_i32);
-                    crate::calculate::print_out(result);
+                    let result = crate::calculate::calculate(&judgements_i32);
+                    crate::print::print_out(result,crate::calculate::percent_v1(&judgements_i32),crate::calculate::percent_v2(&judgements_i32));
                     }
                 } else {
                     println!("No judgments were passed after -j");
                 }
-            }
+            },
+            "-w" => {
+                let judgemnets = crate::read::read_judgements();
+                let result = crate::calculate::calculate(&judgemnets);
+                crate::write_result::write(result).unwrap(); // Writing out the result into formatted text file WIP
+            },
             _ => {}, //  Print out in case of usage of other letter than v,j,h
             }
     }
-}
+}*/
