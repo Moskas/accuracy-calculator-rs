@@ -30,7 +30,7 @@ pub fn read_judgements() -> Vec<i32> {
     }
     return judgements;
 }
-
+/*
 pub fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
     println!("Missing some judgements, do automatic fill with 0 or manually input missing judgements?:\ny/n");
     let mut readout: String = String::new();
@@ -76,7 +76,8 @@ fn fill_test() {
         vec![300, 200, 29, 29, 1, 1]
     );
 }
-
+*/
+/*
 pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     println!("Please insert your judgements");
     let possible_judgements = vec!["300g", "300", "200", "100", "50", "Miss"];
@@ -103,6 +104,7 @@ pub fn read_missing(judgements: &mut Vec<i32>) -> Vec<i32> {
     }
     return judgements.to_vec();
 }
+*/
 //  Converting from Vector with &str to i32 type
 pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
     let mut judgements_i32: Vec<i32> = Vec::new();

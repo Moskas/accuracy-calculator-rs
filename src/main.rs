@@ -7,14 +7,14 @@ mod write_result;
 
 fn main() {
     let matches = App::new("accuracy-calculator")
-        .version("0.4.6")
+        .version("0.5.0")
         .author("Moskas")
         .about("osu!mania CLI accuracy calculator written in Rust")
         .arg(
             Arg::with_name("interactive")
                 .short("i")
                 .long("interactive")
-                .help("launch app in interactive mode")
+                .help("Launch app in interactive mode")
                 .takes_value(false),
         )
         .arg(
@@ -27,14 +27,19 @@ fn main() {
             Arg::with_name("save")
                 .short("s")
                 .long("save")
-                .help("Save result to a text file")
+                .help("Save result in a csv format")
                 .takes_value(false),
         )
         .get_matches();
     if matches.is_present("interactive") {
         let judgements = read::read_judgements();
         let result = calculate::calculate(&judgements);
-        print::print_out(result)
+        if matches.is_present("save") {
+            write_result::write(result).unwrap();
+            println!("Result saved!")
+        } else {
+            print::print_out(result);
+        }
     } else if matches.is_present("judgments") {
         let judgements: Vec<i32> = read::convert_to_i32(
             &mut matches
@@ -44,6 +49,13 @@ fn main() {
                 .collect::<Vec<&str>>(),
         );
         let result = calculate::calculate(&judgements);
-        print::print_out(result);
+        if matches.is_present("save") {
+            write_result::write(result).unwrap();
+            println!("Result saved!")
+        } else {
+            print::print_out(result);
+        }
+    } else {
+        println!("No arguments provided")
     }
 }
