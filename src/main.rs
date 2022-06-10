@@ -48,12 +48,16 @@ fn main() {
                 .split(',')
                 .collect::<Vec<&str>>(),
         );
-        let result = calculate::calculate(&judgements);
-        if matches.is_present("save") {
-            write_result::write(result).unwrap();
-            println!("Result saved!")
+        if judgements.len() == 6 {
+            let result = calculate::calculate(&judgements);
+            if matches.is_present("save") {
+                write_result::write(result).unwrap();
+                println!("Result saved!")
+            } else {
+                print::print_out(result);
+            }
         } else {
-            print::print_out(result);
+            println!("Incorrect input!")
         }
     } else {
         println!("No arguments provided")
