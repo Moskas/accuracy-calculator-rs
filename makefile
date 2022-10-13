@@ -6,8 +6,11 @@ update:
 build:
 	cargo b -r
 install:
-	cp ./target/release/accuracy-calculator /usr/bin
+	cp ./target/release/accuracy-calculator ~/.local/bin
 	@echo "Installed"
 uninstall:
-	rm /usr/bin/accuracy-calculator
+	rm ~/.local/bin/accuracy-calculator
 	@echo "Uninstalled"
+test:
+	cargo test
+	@echo tested
