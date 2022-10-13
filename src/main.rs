@@ -48,7 +48,8 @@ fn main() {
                 .split(',')
                 .collect::<Vec<&str>>(),
         );
-        if judgements.len() == 6 {
+        let length = judgements.len();
+        if length == 6 {
             let result = calculate::calculate(&judgements);
             if matches.is_present("save") {
                 write_result::write(result).unwrap();
@@ -57,7 +58,7 @@ fn main() {
                 print::print_out(result);
             }
         } else {
-            println!("Incorrect input!")
+            println!("Data input is to short! Input length: {} instead of 6", length)
         }
     } else {
         println!("No arguments provided")
