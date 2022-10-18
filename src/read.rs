@@ -28,7 +28,7 @@ pub fn read_judgements() -> Vec<i32> {
         }
         readout.clear();
     }
-    return judgements;
+    judgements
 }
 /*
 pub fn fill(size: usize, judgements: &mut Vec<i32>) -> Vec<i32> {
@@ -113,6 +113,7 @@ pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
             Ok(val) => {
                 if val < 0 {
                     println!("Value can't be less than 0");
+                    judgements_i32.push(0o0)
                 } else {
                     judgements_i32.push(val)
                 }
@@ -123,7 +124,7 @@ pub fn convert_to_i32(judgements: &mut Vec<&str>) -> Vec<i32> {
             }
         }
     }
-    return judgements_i32;
+    judgements_i32
 }
 
 #[test]

@@ -1,0 +1,56 @@
+* Terminal osu!mania accuracy calculator made in Rust
+:PROPERTIES:
+:CUSTOM_ID: terminal-osumania-accuracy-calculator-made-in-rust
+:END:
+
+--------------
+
+Simple terminal accuracy and ratio calculator for osu!mania. You can
+execute the application without any parameters and manually insert all
+the data.
+
+[[./example.png]]
+
+You can also launch the application with arguments, currently
+implemented arguments are:
+
+#+begin_example
+accuracy-calculator [FLAGS] [OPTIONS]
+
+FLAGS:
+-h, --help           Prints help information
+-i, --interactive    Launch app in interactive mode
+-s, --save           Save result in a csv format
+-V, --version        Prints version information
+
+OPTIONS:
+-j <judgments>        Pass judgments in format 300g,300,200,100,50,miss
+#+end_example
+
+*interactive mode requires manual imput of judgments ## Install ###
+Linux To install the application you can use makefile after cloning the
+repo By default it's using .local/bin folder in $XDG_HOME directory.
+
+#+begin_example
+make update
+make install
+#+end_example
+
+To uninstall use
+
+#+begin_example
+make uninstall
+#+end_example
+
+** Building
+:PROPERTIES:
+:CUSTOM_ID: building
+:END:
+If you don't need to install it right away or you are using
+Windows/MacOS do:
+
+#+begin_example
+$ git clone https://github.com/Moskas/accuracy-calculator-rs.git
+$ cd accuracy-calculator-rs
+$ cargo build
+#+end_example

@@ -2,7 +2,7 @@
 pub fn perfect_all(judgements: &Vec<i32>) -> (f32, f32) {
     let perfects: i32 = judgements[0..=1].iter().sum();
     let other: i32 = judgements[2..=5].iter().sum();
-    return (perfects as f32, other as f32);
+    (perfects as f32, other as f32)
 }
 // Calculating Score v1 percent from formula that can be found here: https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
 pub fn percent_v1(judgements: &Vec<i32>) -> f32 {
@@ -13,7 +13,7 @@ pub fn percent_v1(judgements: &Vec<i32>) -> f32 {
             + 50 * judgements[4],
         (judgements[0..=5].iter().sum::<i32>()) * 300,
     );
-    return (percent.0 as f32 / percent.1 as f32) * 100.0;
+    (percent.0 as f32 / percent.1 as f32) * 100.0
 }
 // Calculating Score v2 percent from formula that can be found here: https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
 pub fn percent_v2(judgements: &Vec<i32>) -> f32 {
@@ -25,7 +25,7 @@ pub fn percent_v2(judgements: &Vec<i32>) -> f32 {
             + 50 * judgements[4],
         (judgements[0..=5].iter().sum::<i32>()) * 305,
     );
-    return (percent.0 as f32 / percent.1 as f32) * 100.0;
+    (percent.0 as f32 / percent.1 as f32) * 100.0
 }
 //  Matching Score v1/v2 percanteges with grades https://osu.ppy.sh/wiki/en/Gameplay/Grade
 //  wiki page says grades start from .00 in reality next grade starts from .01 due to rounding up
@@ -57,5 +57,5 @@ pub fn calculate(judgements: &Vec<i32>) -> (f32, f32, (f32, f32), f32, f32, &Vec
     let pa: f32 = judge_sum_tuple.0 / judge_sum_tuple.1;
     let v1: f32 = percent_v1(judgements);
     let v2: f32 = percent_v2(judgements);
-    return (ma, pa, judge_sum_tuple, v1, v2, judgements);
+    (ma, pa, judge_sum_tuple, v1, v2, judgements)
 }

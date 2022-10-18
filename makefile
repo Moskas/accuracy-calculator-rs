@@ -13,4 +13,4 @@ uninstall:
 	@echo "Uninstalled"
 test:
 	cargo test
-	@echo tested
+	@echo "Tested"
