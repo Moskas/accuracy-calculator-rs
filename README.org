@@ -27,7 +27,8 @@ OPTIONS:
 -j <judgments>        Pass judgments in format 300g,300,200,100,50,miss
 #+end_example
 
-*interactive mode requires manual imput of judgments ## Install ###
+*interactive mode requires manual input of judgments
+** Install
 Linux To install the application you can use makefile after cloning the
 repo By default it's using .local/bin folder in $XDG_HOME directory.
 
